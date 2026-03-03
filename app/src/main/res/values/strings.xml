@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">HireWireApplication</string>
+    <string name="blank_fragment">Blank Fragment</string>
+</resources>
