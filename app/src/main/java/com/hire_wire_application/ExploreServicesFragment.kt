@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hire_wire_application.databinding.FragmentExploreServicesBinding
+import com.hire_wire_application.models.Model
 
 class ExploreServicesFragment : Fragment() {
   private lateinit var binding: FragmentExploreServicesBinding
@@ -17,11 +19,16 @@ class ExploreServicesFragment : Fragment() {
   ): View {
     binding = FragmentExploreServicesBinding.inflate(layoutInflater, container, false)
 
+    binding.servicesRecyclerView.setHasFixedSize(true)
+    binding.servicesRecyclerView.layoutManager = LinearLayoutManager(context)
+
+    binding.progressBar.visibility = View.VISIBLE
+
+    Model.shared.getAllServices { services ->
+      binding.progressBar.visibility = View.GONE
+      binding.servicesRecyclerView.adapter = ServicesAdapter(services)
+    }
+
     return binding.root
   }
-
-  //    companion object {
-  //        @JvmStatic
-  //        fun newInstance() = ExploreServicesFragment().apply { arguments = Bundle().apply {} }
-  //    }
 }
