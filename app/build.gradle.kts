@@ -1,4 +1,8 @@
-plugins { alias(libs.plugins.android.application) }
+plugins {
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.navigation.safe.args)
+  id("com.google.devtools.ksp")
+}
 
 android {
   namespace = "com.hire_wire_application"
@@ -28,6 +32,10 @@ android {
 }
 
 dependencies {
+  implementation(libs.androidx.room.runtime)
+  implementation(libs.androidx.recyclerview)
+  ksp(libs.androidx.room.compiler)
+  implementation(libs.androidx.room.ktx)
   implementation(libs.androidx.navigation.fragment.ktx)
   implementation(libs.androidx.navigation.ui.ktx)
   implementation(libs.androidx.fragment)
