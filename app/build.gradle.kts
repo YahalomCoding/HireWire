@@ -2,6 +2,7 @@ plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.navigation.safe.args)
   id("com.google.devtools.ksp")
+  alias(libs.plugins.google.services)
 }
 
 android {
@@ -32,6 +33,8 @@ android {
 }
 
 dependencies {
+  implementation(libs.firebase.auth)
+  implementation(platform(libs.firebase.bom))
   implementation(libs.androidx.room.runtime)
   implementation(libs.androidx.recyclerview)
   ksp(libs.androidx.room.compiler)

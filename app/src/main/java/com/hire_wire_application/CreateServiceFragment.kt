@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.hire_wire_application.databinding.FragmentCreateServiceBinding
+import com.hire_wire_application.models.FirebaseAuthModel
 import com.hire_wire_application.models.Model
 import com.hire_wire_application.models.Service
 
 class CreateServiceFragment : Fragment() {
   private lateinit var binding: FragmentCreateServiceBinding
+  private var firebaseAuth = FirebaseAuthModel()
 
   override fun onCreateView(
       inflater: LayoutInflater,
@@ -24,6 +26,7 @@ class CreateServiceFragment : Fragment() {
       val serviceTitle = binding.titleInput.text.toString()
       val serviceDescription = binding.descriptionInput.text.toString()
       val servicePrice = binding.priceInput.text.toString().toInt()
+      val serviceProviderId = firebaseAuth.getLoggedInUserId()
 
       val newService =
           Service(
@@ -32,6 +35,7 @@ class CreateServiceFragment : Fragment() {
               title = serviceTitle,
               description = serviceDescription,
               price = servicePrice,
+              providerId = serviceProviderId,
           )
 
       Model.shared.addService(newService) {

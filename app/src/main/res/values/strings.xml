@@ -8,4 +8,7 @@
     <string name="service_description_input_text">Description:</string>
     <string name="service_price_input_text">Service Price:</string>
     <string name="price_format">$%1$d</string>
+    <string name="email_input_text">Email:</string>
+    <string name="password_input_text">Password:</string>
+    <string name="sign_in_button">Sign In</string>>
 </resources>
