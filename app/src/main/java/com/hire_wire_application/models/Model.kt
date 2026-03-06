@@ -10,15 +10,17 @@ class Model private constructor() {
   private val executor = Executors.newSingleThreadExecutor()
   private val mainHandler = HandlerCompat.createAsync(Looper.getMainLooper())
   private val database: AppLocalDbRepository = AppLocalDB.db
+  private val firebaseAuth = FirebaseAuthModel()
 
   companion object {
     val shared = Model()
   }
 
-  fun getAllServices(completion: (List<Service>) -> Unit) {
+  fun getHomeFeedServices(completion: (List<Service>) -> Unit) {
     executor.execute {
-      val services = database.serviceDao.getAllServices()
-      mainHandler.post { completion(services) }
+      val homeFeedServices =
+          database.serviceDao.getHomeFeedServices(firebaseAuth.getLoggedInUserId())
+      mainHandler.post { completion(homeFeedServices) }
     }
   }
 

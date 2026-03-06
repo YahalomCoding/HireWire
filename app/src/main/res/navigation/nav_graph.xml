@@ -24,5 +24,19 @@
         android:id="@+id/profilePageFragment"
         android:name="com.hire_wire_application.ProfilePageFragment"
         android:label="Profile Page"
-        tools:layout="@layout/fragment_profile_page" /><action android:id="@+id/action_global_exploreServicesFragment" app:destination="@id/exploreServicesFragment"/><action android:id="@+id/action_global_myDashboardFragment" app:destination="@id/myDashboardFragment"/><action android:id="@+id/action_global_createServiceFragment" app:destination="@id/createServiceFragment"/><action android:id="@+id/action_global_profilePageFragment" app:destination="@id/profilePageFragment"/>
+        tools:layout="@layout/fragment_profile_page" />
+
+    <action
+        android:id="@+id/action_global_exploreServicesFragment"
+        app:destination="@id/exploreServicesFragment" />
+    <action
+        android:id="@+id/action_global_myDashboardFragment"
+        app:destination="@id/myDashboardFragment" />
+    <action
+        android:id="@+id/action_global_createServiceFragment"
+        app:destination="@id/createServiceFragment" />
+    <action
+        android:id="@+id/action_global_profilePageFragment"
+        app:destination="@id/profilePageFragment" />
+
 </navigation>
