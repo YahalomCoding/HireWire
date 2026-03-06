@@ -33,6 +33,11 @@ android {
 }
 
 dependencies {
+  implementation(libs.picasso)
+  implementation(libs.cloudinary.android)
+  implementation(libs.cloudinary.android.download)
+  implementation(libs.cloudinary.android.preprocess)
+  implementation(libs.firebase.firestore)
   implementation(libs.firebase.auth)
   implementation(platform(libs.firebase.bom))
   implementation(libs.androidx.room.runtime)

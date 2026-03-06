@@ -2,6 +2,7 @@ package com.hire_wire_application
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,10 +28,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     binding.signInButton.setOnClickListener {
-      val email = binding.emailInput.text.toString()
-      val password = binding.passwordInput.text.toString()
+      val email = binding.emailInput.text.toString().trim()
+      val password = binding.passwordInput.text.toString().trim()
 
-      firebaseAuth.signIn(email, password) { navigateToMainActivity() }
+      if (email.isNotEmpty() && password.isNotEmpty()) {
+        firebaseAuth.signIn(email, password, binding.root.context) { navigateToMainActivity() }
+      } else {
+        Toast.makeText(binding.root.context, "Empty Fields Detected", Toast.LENGTH_LONG).show()
+      }
     }
   }
 

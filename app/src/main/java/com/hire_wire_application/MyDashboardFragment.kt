@@ -19,9 +19,4 @@ class MyDashboardFragment : Fragment() {
 
     return binding.root
   }
-
-  //    companion object {
-  //        @JvmStatic
-  //        fun newInstance() = MyDashboardFragment().apply { arguments = Bundle().apply {} }
-  //    }
 }
