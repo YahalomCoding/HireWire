@@ -11,4 +11,8 @@
     <string name="email_input_text">Email:</string>
     <string name="password_input_text">Password:</string>
     <string name="sign_in_button">Sign In</string>>
+    <string name="user_profile_text">User Profile</string>
+    <string name="name_input_text">Name:</string>
+    <string name="bio_input_text">Bio:</string>
+    <string name="edit_button_text">Edit</string>
 </resources>

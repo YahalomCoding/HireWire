@@ -6,17 +6,23 @@ import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.policy.GlobalUploadPolicy
 import com.cloudinary.android.policy.UploadPolicy
+import com.hire_wire_application.BuildConfig
 import com.hire_wire_application.MyApplication
 import com.hire_wire_application.StringCompletion
 import java.io.File
 
 class CloudinaryStorageModel {
+  enum class ImagePathEnum(val path: String) {
+    SERVICES("services"),
+    USERS("users"),
+  }
+
   init {
     val config =
         mapOf(
-            "cloud_name" to "dunh6l62o",
-            "api_key" to "254264749826441",
-            "api_secret" to "6LVr28U5AKHUTcYE1yB4GlaPN5k",
+            "cloud_name" to BuildConfig.CLOUD_NAME,
+            "api_key" to BuildConfig.API_KEY,
+            "api_secret" to BuildConfig.API_SECRET,
         )
 
     MyApplication.appContext?.let {
@@ -29,13 +35,18 @@ class CloudinaryStorageModel {
     }
   }
 
-  fun uploadServiceImage(image: Bitmap, service: Service, completion: StringCompletion) {
+  fun uploadImage(
+      image: Bitmap,
+      linkedObjectId: String,
+      imagePath: ImagePathEnum,
+      completion: StringCompletion,
+  ) {
     val context = MyApplication.appContext ?: return
     val file = convertBitmapToFile(image, context)
 
     MediaManager.get()
         .upload(file.path)
-        .option("images", "services/${service.id}/image")
+        .option("images", "${imagePath.path}/${linkedObjectId}/image")
         .callback(
             object : com.cloudinary.android.callback.UploadCallback {
               override fun onSuccess(requestId: String, resultData: Map<*, *>) {

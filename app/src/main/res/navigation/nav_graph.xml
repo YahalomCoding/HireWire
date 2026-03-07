@@ -24,7 +24,16 @@
         android:id="@+id/profilePageFragment"
         android:name="com.hire_wire_application.ProfilePageFragment"
         android:label="Profile Page"
-        tools:layout="@layout/fragment_profile_page" />
+        tools:layout="@layout/fragment_profile_page">
+        <action
+            android:id="@+id/action_profilePageFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.hire_wire_application.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" />
 
     <action
         android:id="@+id/action_global_exploreServicesFragment"

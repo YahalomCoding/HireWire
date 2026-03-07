@@ -6,7 +6,12 @@ import com.hire_wire_application.StringCompletion
 class StorageModel {
   private val cloudinaryStorageModel = CloudinaryStorageModel()
 
-  fun uploadServiceImage(image: Bitmap, service: Service, completion: StringCompletion) {
-    cloudinaryStorageModel.uploadServiceImage(image, service, completion)
+  fun uploadImage(
+      image: Bitmap,
+      linkedObjectId: String,
+      imagePath: CloudinaryStorageModel.ImagePathEnum,
+      completion: StringCompletion,
+  ) {
+    cloudinaryStorageModel.uploadImage(image, linkedObjectId, imagePath, completion)
   }
 }

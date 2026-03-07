@@ -25,8 +25,8 @@ class ExploreServicesFragment : Fragment() {
     binding.progressBar.visibility = View.VISIBLE
 
     Model.shared.getHomeFeedServices { homeFeedServices ->
-      binding.progressBar.visibility = View.GONE
       binding.servicesRecyclerView.adapter = ServicesAdapter(homeFeedServices)
+      binding.progressBar.visibility = View.GONE
     }
 
     return binding.root

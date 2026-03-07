@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.navigation.safe.args)
@@ -25,7 +27,24 @@ android {
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
-  buildFeatures { viewBinding = true }
+
+  val properties = Properties()
+  val propertiesFile = project.rootProject.file("local.properties")
+  if (propertiesFile.exists()) {
+    properties.load(propertiesFile.inputStream())
+  }
+
+  defaultConfig {
+    buildConfigField("String", "CLOUD_NAME", properties.getProperty("CLOUD_NAME"))
+    buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+    buildConfigField("String", "API_SECRET", properties.getProperty("API_SECRET"))
+  }
+
+  buildFeatures {
+    buildConfig = true
+    viewBinding = true
+  }
+
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
