@@ -7,13 +7,14 @@
     tools:context=".CreateServiceFragment">
 
     <ImageView
-        android:id="@+id/serviceImageInput"
+        android:id="@+id/currServiceImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="56dp"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/profile_picture"
+        android:scaleType="fitXY"
+        android:src="@drawable/no_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ImageContrastCheck" />
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="@string/service_title_input_text"
         app:layout_constraintBottom_toBottomOf="@+id/title_input"
-        app:layout_constraintStart_toStartOf="@+id/serviceImageInput"
+        app:layout_constraintStart_toStartOf="@+id/currServiceImage"
         app:layout_constraintTop_toTopOf="@+id/title_input" />
 
     <TextView
@@ -54,7 +55,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/description_input"
-        app:layout_constraintTop_toBottomOf="@+id/serviceImageInput"
+        app:layout_constraintTop_toBottomOf="@+id/currServiceImage"
         tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <EditText
@@ -91,5 +92,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/uploadImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent"
+        android:importantForAccessibility="no"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toBottomOf="@+id/currServiceImage"
+        app:layout_constraintEnd_toEndOf="@+id/currServiceImage"
+        app:layout_constraintStart_toStartOf="@+id/currServiceImage"
+        app:layout_constraintTop_toTopOf="@+id/currServiceImage"
+        tools:ignore="ImageContrastCheck,TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

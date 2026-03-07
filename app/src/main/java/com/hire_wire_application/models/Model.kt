@@ -1,33 +1,24 @@
 package com.hire_wire_application.models
 
-import android.os.Looper
-import androidx.core.os.HandlerCompat
-import com.hire_wire_application.dao.AppLocalDB
-import com.hire_wire_application.dao.AppLocalDbRepository
-import java.util.concurrent.Executors
+import android.graphics.Bitmap
+import com.hire_wire_application.Completion
+import com.hire_wire_application.ServicesCompletion
 
 class Model private constructor() {
-  private val executor = Executors.newSingleThreadExecutor()
-  private val mainHandler = HandlerCompat.createAsync(Looper.getMainLooper())
-  private val database: AppLocalDbRepository = AppLocalDB.db
-  private val firebaseAuth = FirebaseAuthModel()
+  private val firebaseModel = FirebaseModel()
+  private val storageModel = StorageModel()
 
   companion object {
     val shared = Model()
   }
 
-  fun getHomeFeedServices(completion: (List<Service>) -> Unit) {
-    executor.execute {
-      val homeFeedServices =
-          database.serviceDao.getHomeFeedServices(firebaseAuth.getLoggedInUserId())
-      mainHandler.post { completion(homeFeedServices) }
-    }
+  fun getHomeFeedServices(completion: ServicesCompletion) {
+    firebaseModel.getHomeFeedServices(completion)
   }
 
-  fun addService(service: Service, completion: () -> Unit) {
-    executor.execute {
-      database.serviceDao.insertService(service)
-      mainHandler.post { completion() }
+  fun addService(service: Service, image: Bitmap, completion: Completion) {
+    storageModel.uploadServiceImage(image, service) { imageUrl ->
+      firebaseModel.addService(service.copy(imageUrl = imageUrl), completion)
     }
   }
 }

@@ -1,14 +1,16 @@
 package com.hire_wire_application.models
 
-import android.util.Log
+import android.content.Context
+import android.widget.Toast
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.hire_wire_application.Completion
 
 class FirebaseAuthModel {
   private var auth: FirebaseAuth = Firebase.auth
 
-  fun signIn(email: String, password: String, completion: () -> Unit) {
+  fun signIn(email: String, password: String, context: Context, completion: Completion) {
     auth
         .signInWithEmailAndPassword(email, password)
         .addOnSuccessListener { completion() }
@@ -16,7 +18,9 @@ class FirebaseAuthModel {
           auth
               .createUserWithEmailAndPassword(email, password)
               .addOnSuccessListener { completion() }
-              .addOnFailureListener { Log.e("TAG", "Sign-In Failed: ${it.message}") }
+              .addOnFailureListener {
+                Toast.makeText(context, "Authentication Failed", Toast.LENGTH_LONG).show()
+              }
         }
   }
 
