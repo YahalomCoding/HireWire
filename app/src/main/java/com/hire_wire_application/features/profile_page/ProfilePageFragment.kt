@@ -1,4 +1,4 @@
-package com.hire_wire_application
+package com.hire_wire_application.features.profile_page
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentProfilePageBinding
 import com.hire_wire_application.models.FirebaseAuthModel
 import com.hire_wire_application.models.Model
@@ -24,7 +25,7 @@ class ProfilePageFragment : Fragment() {
 
     togglePageVisibility(true)
 
-    Model.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
+    Model.Companion.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
       if (user != null) {
         Picasso.get().load(user.imageUrl).into(binding.profileImage)
         binding.nameText.text = user.name

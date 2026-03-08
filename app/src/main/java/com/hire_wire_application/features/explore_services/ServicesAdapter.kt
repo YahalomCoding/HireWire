@@ -1,4 +1,4 @@
-package com.hire_wire_application
+package com.hire_wire_application.features.explore_services
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

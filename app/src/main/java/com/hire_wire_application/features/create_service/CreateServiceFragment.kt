@@ -1,4 +1,4 @@
-package com.hire_wire_application
+package com.hire_wire_application.features.create_service
 
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -11,10 +11,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentCreateServiceBinding
 import com.hire_wire_application.models.FirebaseAuthModel
 import com.hire_wire_application.models.Model
 import com.hire_wire_application.models.Service
+import java.util.UUID
 
 class CreateServiceFragment : Fragment() {
   private lateinit var binding: FragmentCreateServiceBinding
@@ -47,7 +49,7 @@ class CreateServiceFragment : Fragment() {
 
         val newService =
             Service(
-                id = java.util.UUID.randomUUID().toString(),
+                id = UUID.randomUUID().toString(),
                 title = serviceTitle,
                 description = serviceDescription,
                 price = servicePrice,
@@ -56,7 +58,7 @@ class CreateServiceFragment : Fragment() {
 
         val imageBitmap = (binding.currServiceImage.drawable as BitmapDrawable).toBitmap()
 
-        Model.shared.addService(newService, imageBitmap) {
+        Model.Companion.shared.addService(newService, imageBitmap) {
           findNavController().navigate(R.id.action_global_exploreServicesFragment)
         }
       } else {

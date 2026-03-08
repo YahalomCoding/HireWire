@@ -1,4 +1,4 @@
-package com.hire_wire_application
+package com.hire_wire_application.features.explore_services
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hire_wire_application.features.explore_services.ServicesAdapter
 import com.hire_wire_application.databinding.FragmentExploreServicesBinding
 import com.hire_wire_application.models.Model
 
@@ -24,7 +25,7 @@ class ExploreServicesFragment : Fragment() {
 
     binding.progressBar.visibility = View.VISIBLE
 
-    Model.shared.getHomeFeedServices { homeFeedServices ->
+    Model.Companion.shared.getHomeFeedServices { homeFeedServices ->
       binding.servicesRecyclerView.adapter = ServicesAdapter(homeFeedServices)
       binding.progressBar.visibility = View.GONE
     }

@@ -1,4 +1,4 @@
-package com.hire_wire_application
+package com.hire_wire_application.features.profile_page
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentEditProfileBinding
 import com.hire_wire_application.models.FirebaseAuthModel
 import com.hire_wire_application.models.Model
@@ -35,7 +36,7 @@ class EditProfileFragment : Fragment() {
 
     togglePageVisibility(true)
 
-    Model.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
+    Model.Companion.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
       if (user != null) {
         Picasso.get().load(user.imageUrl).into(binding.currProfileImage)
         binding.nameInput.setText(user.name)
@@ -81,7 +82,7 @@ class EditProfileFragment : Fragment() {
   fun createNewUser(userId: String, name: String, bio: String, imageBitmap: Bitmap) {
     val newUser = User(id = userId, name = name, bio = bio)
 
-    Model.shared.addUser(newUser, imageBitmap) {
+    Model.Companion.shared.addUser(newUser, imageBitmap) {
       findNavController().navigate(R.id.action_global_profilePageFragment)
     }
   }
@@ -98,7 +99,7 @@ class EditProfileFragment : Fragment() {
     }
 
     if (!updatedData.isEmpty() || isImageChanged) {
-      Model.shared.editUserById(
+      Model.Companion.shared.editUserById(
           userId,
           updatedData,
           if (isImageChanged) imageBitmap else null,
