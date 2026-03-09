@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentEditProfileBinding
 import com.hire_wire_application.models.FirebaseAuthModel
-import com.hire_wire_application.models.Model
-import com.hire_wire_application.models.User
+import com.hire_wire_application.models.Repository
+import com.hire_wire_application.models.db_models.User
 import com.squareup.picasso.Picasso
 
 class EditProfileFragment : Fragment() {
@@ -36,7 +36,7 @@ class EditProfileFragment : Fragment() {
 
     togglePageVisibility(true)
 
-    Model.Companion.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
+    Repository.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
       if (user != null) {
         Picasso.get().load(user.imageUrl).into(binding.currProfileImage)
         binding.nameInput.setText(user.name)
@@ -69,10 +69,13 @@ class EditProfileFragment : Fragment() {
 
       if (name.isEmpty() || bio.isEmpty()) {
         Toast.makeText(binding.root.context, "Empty Fields Detected", Toast.LENGTH_LONG).show()
-      } else if (!isExistingUser) {
-        createNewUser(userId, name, bio, imageBitmap)
       } else {
-        updateExistingUser(userId, name, bio, imageBitmap)
+        togglePageVisibility(true)
+        if (!isExistingUser) {
+          createNewUser(userId, name, bio, imageBitmap)
+        } else {
+          updateExistingUser(userId, name, bio, imageBitmap)
+        }
       }
     }
 
@@ -82,7 +85,8 @@ class EditProfileFragment : Fragment() {
   fun createNewUser(userId: String, name: String, bio: String, imageBitmap: Bitmap) {
     val newUser = User(id = userId, name = name, bio = bio)
 
-    Model.Companion.shared.addUser(newUser, imageBitmap) {
+    Repository.shared.addUser(newUser, imageBitmap) {
+      togglePageVisibility(false)
       findNavController().navigate(R.id.action_global_profilePageFragment)
     }
   }
@@ -99,14 +103,16 @@ class EditProfileFragment : Fragment() {
     }
 
     if (!updatedData.isEmpty() || isImageChanged) {
-      Model.Companion.shared.editUserById(
+      Repository.shared.editUserById(
           userId,
           updatedData,
           if (isImageChanged) imageBitmap else null,
       ) {
+        togglePageVisibility(false)
         findNavController().navigate(R.id.action_global_profilePageFragment)
       }
     } else {
+      togglePageVisibility(false)
       Toast.makeText(binding.root.context, "No Changes Detected", Toast.LENGTH_LONG).show()
     }
   }

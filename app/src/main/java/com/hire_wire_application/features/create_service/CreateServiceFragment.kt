@@ -14,8 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentCreateServiceBinding
 import com.hire_wire_application.models.FirebaseAuthModel
-import com.hire_wire_application.models.Model
-import com.hire_wire_application.models.Service
+import com.hire_wire_application.models.Repository
+import com.hire_wire_application.models.db_models.Service
 import java.util.UUID
 
 class CreateServiceFragment : Fragment() {
@@ -58,7 +58,11 @@ class CreateServiceFragment : Fragment() {
 
         val imageBitmap = (binding.currServiceImage.drawable as BitmapDrawable).toBitmap()
 
-        Model.Companion.shared.addService(newService, imageBitmap) {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.saveButton.isEnabled = false
+
+        Repository.shared.addService(newService, imageBitmap) {
+          binding.progressBar.visibility = View.GONE
           findNavController().navigate(R.id.action_global_exploreServicesFragment)
         }
       } else {

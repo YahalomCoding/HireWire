@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentProfilePageBinding
 import com.hire_wire_application.models.FirebaseAuthModel
-import com.hire_wire_application.models.Model
+import com.hire_wire_application.models.Repository
 import com.squareup.picasso.Picasso
 
 class ProfilePageFragment : Fragment() {
@@ -25,7 +25,7 @@ class ProfilePageFragment : Fragment() {
 
     togglePageVisibility(true)
 
-    Model.Companion.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
+    Repository.Companion.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
       if (user != null) {
         Picasso.get().load(user.imageUrl).into(binding.profileImage)
         binding.nameText.text = user.name

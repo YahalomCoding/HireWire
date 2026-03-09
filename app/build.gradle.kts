@@ -9,11 +9,11 @@ plugins {
 
 android {
   namespace = "com.hire_wire_application"
-  compileSdk { version = release(36) { minorApiLevel = 1 } }
+  compileSdk = 36
 
   defaultConfig {
     applicationId = "com.hire_wire_application"
-    minSdk = 24
+    minSdk = 28
     targetSdk = 36
     versionCode = 1
     versionName = "1.0"
@@ -61,6 +61,7 @@ dependencies {
   implementation(platform(libs.firebase.bom))
   implementation(libs.androidx.room.runtime)
   implementation(libs.androidx.recyclerview)
+  implementation(libs.androidx.swiperefreshlayout)
   ksp(libs.androidx.room.compiler)
   implementation(libs.androidx.room.ktx)
   implementation(libs.androidx.navigation.fragment.ktx)

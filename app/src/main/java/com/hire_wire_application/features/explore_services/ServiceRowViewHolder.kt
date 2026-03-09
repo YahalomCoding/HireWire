@@ -3,7 +3,7 @@ package com.hire_wire_application.features.explore_services
 import androidx.recyclerview.widget.RecyclerView
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.ServicesListRowBinding
-import com.hire_wire_application.models.Service
+import com.hire_wire_application.models.db_models.Service
 import com.squareup.picasso.Picasso
 
 class ServiceRowViewHolder(private val binding: ServicesListRowBinding) :
