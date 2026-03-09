@@ -20,15 +20,14 @@ class FirebaseModel {
     const val TAG = "FirebaseModel"
   }
 
-  fun getHomeFeedServices(lastUpdated: Long, completion: ServicesCompletion) {
+  fun getAllServices(lastUpdated: Long, completion: ServicesCompletion) {
     db.collection(SERVICES)
-        .whereNotEqualTo(Service.PROVIDER_ID_KEY, firebaseAuth.getLoggedInUserId())
         .whereGreaterThanOrEqualTo(Service.LAST_UPDATED_KEY, Timestamp(lastUpdated / 1000, 0))
         .orderBy(Service.LAST_UPDATED_KEY)
         .get()
         .addOnSuccessListener { result -> completion(result.map { Service.fromJson(it.data) }) }
         .addOnFailureListener { exception ->
-          Log.e(TAG, "Error getting home feed services", exception)
+          Log.e(TAG, "Error getting services", exception)
           completion(listOf())
         }
   }

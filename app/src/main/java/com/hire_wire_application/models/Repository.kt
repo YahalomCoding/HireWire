@@ -1,6 +1,7 @@
 package com.hire_wire_application.models
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hire_wire_application.Completion
@@ -29,7 +30,7 @@ class Repository private constructor() {
     servicesLoadingState.postValue(LoadingState.LOADING)
     val lastUpdated: Long = Service.lastUpdated
 
-    firebaseModel.getHomeFeedServices(lastUpdated) { list ->
+    firebaseModel.getAllServices(lastUpdated) { list ->
       var time = lastUpdated
       for (service in list) {
         localStorage.insertService(service)

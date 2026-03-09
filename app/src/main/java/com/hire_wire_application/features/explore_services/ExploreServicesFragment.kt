@@ -35,7 +35,7 @@ class ExploreServicesFragment : Fragment() {
     }
 
     viewModel.loadingState.observe(viewLifecycleOwner) { state ->
-      //        binding.swipeRefresh.isRefreshing = (state == LoadingState.LOADING)
+      binding.swipeRefresh.isRefreshing = (state == LoadingState.LOADING)
 
       if (state == LoadingState.LOADING && adapter?.itemCount == 0) {
         binding.progressBar.visibility = View.VISIBLE
