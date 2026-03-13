@@ -36,7 +36,7 @@ class EditProfileFragment : Fragment() {
 
     togglePageVisibility(true)
 
-    Repository.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
+    Repository.shared.getUserById(firebaseAuth.getLoggedInUserId()).observe(viewLifecycleOwner) { user ->
       if (user != null) {
         Picasso.get().load(user.imageUrl).into(binding.currProfileImage)
         binding.nameInput.setText(user.name)
@@ -44,9 +44,8 @@ class EditProfileFragment : Fragment() {
 
         originalName = user.name
         originalBio = user.bio
+        togglePageVisibility(false)
       }
-
-      togglePageVisibility(false)
     }
 
     cameraLauncher =

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentProfilePageBinding
 import com.hire_wire_application.models.FirebaseAuthModel
+import com.hire_wire_application.models.LoadingState
 import com.hire_wire_application.models.Repository
 import com.squareup.picasso.Picasso
 
@@ -25,16 +26,20 @@ class ProfilePageFragment : Fragment() {
 
     togglePageVisibility(true)
 
-    Repository.Companion.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
+    val userLiveData = Repository.shared.getUserById(firebaseAuth.getLoggedInUserId())
+    userLiveData.observe(viewLifecycleOwner) { user ->
       if (user != null) {
         Picasso.get().load(user.imageUrl).into(binding.profileImage)
         binding.nameText.text = user.name
         binding.bioText.text = user.bio
-      } else {
+        togglePageVisibility(false)
+      }
+    }
+
+    Repository.shared.userLoadingState.observe(viewLifecycleOwner) { state ->
+      if (state == LoadingState.LOADED && userLiveData.value == null) {
         findNavController().navigate(R.id.action_profilePageFragment_to_editProfileFragment)
       }
-
-      togglePageVisibility(false)
     }
 
     binding.editButton.setOnClickListener {

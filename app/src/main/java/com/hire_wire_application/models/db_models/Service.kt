@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import com.hire_wire_application.GLOBAL_SERVICES_LAST_UPDATED_KEY
 import com.hire_wire_application.MyApplication
 
 @Entity
@@ -23,13 +24,13 @@ data class Service(
       get() {
         return MyApplication.Globals.appContext
             ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
-            ?.getLong(LAST_UPDATED_KEY, 0) ?: 0L
+            ?.getLong(GLOBAL_SERVICES_LAST_UPDATED_KEY, 0) ?: 0L
       }
       set(value) {
         MyApplication.Globals.appContext
             ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
             ?.edit()
-            ?.putLong(LAST_UPDATED_KEY, value)
+            ?.putLong(GLOBAL_SERVICES_LAST_UPDATED_KEY, value)
             ?.apply()
       }
 

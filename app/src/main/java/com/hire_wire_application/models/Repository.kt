@@ -17,6 +17,7 @@ class Repository private constructor() {
   private val localStorage: LocalStorageModel = LocalStorageModel()
 
   val servicesLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
+  val userLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
 
   companion object {
     val shared = Repository()
@@ -56,12 +57,26 @@ class Repository private constructor() {
 
   fun addUser(user: User, image: Bitmap, completion: Completion) {
     storageModel.uploadImage(image, user.id, ImagePathEnum.USERS) { imageUrl ->
-      firebaseModel.addUser(user.copy(imageUrl = imageUrl), completion)
+      firebaseModel.addUser(user.copy(imageUrl = imageUrl)) {
+        refreshUser(user.id)
+        completion()
+      }
     }
   }
 
-  fun getUserById(userId: String, completion: UserCompletion) {
-    firebaseModel.getUserById(userId, completion)
+  fun getUserById(userId: String): LiveData<User> {
+    refreshUser(userId)
+    return localStorage.getUserById(userId)
+  }
+
+  fun refreshUser(userId: String) {
+    userLoadingState.postValue(LoadingState.LOADING)
+    firebaseModel.getUserById(userId) { user ->
+      if (user != null) {
+        localStorage.insertUser(user)
+      }
+      userLoadingState.postValue(LoadingState.LOADED)
+    }
   }
 
   fun editUserById(
@@ -73,10 +88,16 @@ class Repository private constructor() {
     if (updatedImage != null) {
       storageModel.uploadImage(updatedImage, userId, ImagePathEnum.USERS) { imageUrl ->
         val updatedDataWithImageUrl = updatedData + ("imageUrl" to imageUrl)
-        firebaseModel.editUserById(userId, updatedDataWithImageUrl, completion)
+        firebaseModel.editUserById(userId, updatedDataWithImageUrl) {
+          refreshUser(userId)
+          completion()
+        }
       }
     } else {
-      firebaseModel.editUserById(userId, updatedData, completion)
+      firebaseModel.editUserById(userId, updatedData) {
+        refreshUser(userId)
+        completion()
+      }
     }
   }
 }
