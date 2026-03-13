@@ -57,6 +57,26 @@ class Repository private constructor() {
     }
   }
 
+  fun editService(
+      service: Service,
+      updatedImage: Bitmap?,
+      completion: Completion,
+  ) {
+    if (updatedImage != null) {
+      storageModel.uploadImage(updatedImage, service.id, ImagePathEnum.SERVICES) { imageUrl ->
+        firebaseModel.updateService(service.copy(imageUrl = imageUrl)) {
+          refreshHomeFeedServices()
+          completion()
+        }
+      }
+    } else {
+      firebaseModel.updateService(service) {
+        refreshHomeFeedServices()
+        completion()
+      }
+    }
+  }
+
   fun addUser(user: User, image: Bitmap, completion: Completion) {
     storageModel.uploadImage(image, user.id, ImagePathEnum.USERS) { imageUrl ->
       firebaseModel.addUser(user.copy(imageUrl = imageUrl)) {

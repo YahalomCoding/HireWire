@@ -8,33 +8,38 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hire_wire_application.databinding.FragmentMyServicesBinding
-import com.hire_wire_application.models.LoadingState
+import com.hire_wire_application.models.db_models.Service
 
 class MyServicesFragment : Fragment() {
-    private lateinit var binding: FragmentMyServicesBinding
-    private val viewModel: MyServicesViewModel by viewModels()
-    private var adapter: MyServicesAdapter? = null
+  private lateinit var binding: FragmentMyServicesBinding
+  private val viewModel: MyServicesViewModel by viewModels()
+  private var adapter: MyServicesAdapter? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMyServicesBinding.inflate(inflater, container, false)
+  override fun onCreateView(
+      inflater: LayoutInflater,
+      container: ViewGroup?,
+      savedInstanceState: Bundle?,
+  ): View {
+    binding = FragmentMyServicesBinding.inflate(inflater, container, false)
 
-        binding.myServicesRecyclerView.setHasFixedSize(true)
-        binding.myServicesRecyclerView.layoutManager = LinearLayoutManager(context)
+    binding.myServicesRecyclerView.setHasFixedSize(true)
+    binding.myServicesRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter = MyServicesAdapter(emptyList())
-        binding.myServicesRecyclerView.adapter = adapter
+    adapter = MyServicesAdapter(emptyList()) { service -> showEditServiceDialog(service) }
+    binding.myServicesRecyclerView.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) { services ->
-            adapter?.updateServices(services)
-            binding.myServicesSwipeRefresh.isRefreshing = false
-        }
-
-        binding.myServicesSwipeRefresh.setOnRefreshListener { viewModel.refresh() }
-
-        return binding.root
+    viewModel.data.observe(viewLifecycleOwner) { services ->
+      adapter?.updateServices(services)
+      binding.myServicesSwipeRefresh.isRefreshing = false
     }
+
+    binding.myServicesSwipeRefresh.setOnRefreshListener { viewModel.refresh() }
+
+    return binding.root
+  }
+
+  private fun showEditServiceDialog(service: Service) {
+    val dialog = EditServiceDialogFragment(service)
+    dialog.show(childFragmentManager, EditServiceDialogFragment.TAG)
+  }
 }

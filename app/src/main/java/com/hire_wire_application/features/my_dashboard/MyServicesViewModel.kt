@@ -7,13 +7,13 @@ import com.hire_wire_application.models.db_models.Service
 
 class MyServicesViewModel : ViewModel() {
 
-    val data: LiveData<List<Service>> = Repository.shared.getMyServices()
+  val data: LiveData<List<Service>> = Repository.shared.getMyServices()
 
-    init {
-        Repository.shared.refreshHomeFeedServices()
-    }
+  init {
+    Repository.shared.refreshHomeFeedServices()
+  }
 
-    fun refresh() {
-        Repository.shared.refreshHomeFeedServices()
-    }
+  fun refresh() {
+    Repository.shared.refreshHomeFeedServices()
+  }
 }
