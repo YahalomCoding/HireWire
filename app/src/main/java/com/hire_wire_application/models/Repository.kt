@@ -1,11 +1,9 @@
 package com.hire_wire_application.models
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hire_wire_application.Completion
-import com.hire_wire_application.UserCompletion
 import com.hire_wire_application.models.CloudinaryStorageModel.ImagePathEnum
 import com.hire_wire_application.models.db_models.Service
 import com.hire_wire_application.models.db_models.User
@@ -65,6 +63,8 @@ class Repository private constructor() {
   }
 
   fun getUserById(userId: String): LiveData<User> {
+    // Since it's a single user always try to refresh it in case it was updated
+    // elsewhere
     refreshUser(userId)
     return localStorage.getUserById(userId)
   }

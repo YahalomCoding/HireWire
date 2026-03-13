@@ -11,18 +11,17 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentEditProfileBinding
-import com.hire_wire_application.models.FirebaseAuthModel
-import com.hire_wire_application.models.Repository
 import com.hire_wire_application.models.db_models.User
 import com.squareup.picasso.Picasso
 
 class EditProfileFragment : Fragment() {
   private lateinit var binding: FragmentEditProfileBinding
   private lateinit var cameraLauncher: ActivityResultLauncher<Void?>
-  private val firebaseAuth = FirebaseAuthModel()
+  private val viewModel: ProfileViewModel by viewModels()
   private var isImageChanged: Boolean = false
   private var originalName: String? = null
   private var originalBio: String? = null
@@ -36,7 +35,7 @@ class EditProfileFragment : Fragment() {
 
     togglePageVisibility(true)
 
-    Repository.shared.getUserById(firebaseAuth.getLoggedInUserId()).observe(viewLifecycleOwner) { user ->
+    viewModel.user.observe(viewLifecycleOwner) { user ->
       if (user != null) {
         Picasso.get().load(user.imageUrl).into(binding.currProfileImage)
         binding.nameInput.setText(user.name)
@@ -59,7 +58,7 @@ class EditProfileFragment : Fragment() {
     binding.uploadProfileImageButton.setOnClickListener { cameraLauncher.launch(null) }
 
     binding.saveChangesButton.setOnClickListener {
-      val userId = firebaseAuth.getLoggedInUserId()
+      val userId = viewModel.userId
       val name = binding.nameInput.text.toString().trim()
       val bio = binding.bioInput.text.toString().trim()
       val imageBitmap = (binding.currProfileImage.drawable as BitmapDrawable).toBitmap()
@@ -84,7 +83,7 @@ class EditProfileFragment : Fragment() {
   fun createNewUser(userId: String, name: String, bio: String, imageBitmap: Bitmap) {
     val newUser = User(id = userId, name = name, bio = bio)
 
-    Repository.shared.addUser(newUser, imageBitmap) {
+    viewModel.addUser(newUser, imageBitmap) {
       togglePageVisibility(false)
       findNavController().navigate(R.id.action_global_profilePageFragment)
     }
@@ -102,8 +101,7 @@ class EditProfileFragment : Fragment() {
     }
 
     if (!updatedData.isEmpty() || isImageChanged) {
-      Repository.shared.editUserById(
-          userId,
+      viewModel.editUserById(
           updatedData,
           if (isImageChanged) imageBitmap else null,
       ) {
