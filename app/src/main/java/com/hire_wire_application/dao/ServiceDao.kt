@@ -12,5 +12,8 @@ interface ServiceDao {
   @Query("SELECT * FROM Service WHERE providerId != :loggedInUserId")
   fun getHomeFeedServices(loggedInUserId: String): LiveData<List<Service>>
 
+  @Query("SELECT * FROM Service WHERE providerId = :loggedInUserId")
+  fun getMyServices(loggedInUserId: String): LiveData<List<Service>>
+
   @Insert(onConflict = OnConflictStrategy.REPLACE) fun insertService(vararg service: Service)
 }

@@ -21,6 +21,12 @@ class LocalStorageModel {
     return database.serviceDao.getHomeFeedServices(loggedInUserId)
   }
 
+  fun getMyServices(
+      loggedInUserId: String,
+  ): LiveData<List<Service>> {
+    return database.serviceDao.getMyServices(loggedInUserId)
+  }
+
   fun insertService(service: Service, completion: Completion? = null) {
     executor.execute {
       database.serviceDao.insertService(service)

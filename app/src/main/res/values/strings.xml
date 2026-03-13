@@ -15,4 +15,6 @@
     <string name="name_input_text">Name:</string>
     <string name="bio_input_text">Bio:</string>
     <string name="edit_button_text">Edit</string>
+    <string name="delete_service_text">Delete service</string>
+    <string name="edit_service_text">Edit service</string>
 </resources>

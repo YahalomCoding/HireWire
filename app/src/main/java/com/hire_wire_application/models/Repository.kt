@@ -25,6 +25,10 @@ class Repository private constructor() {
     return localStorage.getHomeFeedServices(firebaseAuth.getLoggedInUserId())
   }
 
+  fun getMyServices(): LiveData<List<Service>> {
+    return localStorage.getMyServices(firebaseAuth.getLoggedInUserId())
+  }
+
   fun refreshHomeFeedServices() {
     servicesLoadingState.postValue(LoadingState.LOADING)
     val lastUpdated: Long = Service.lastUpdated
