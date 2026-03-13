@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/exploreServicesFragment"
-        android:name="com.hire_wire_application.ExploreServicesFragment"
+        android:name="com.hire_wire_application.features.explore_services.ExploreServicesFragment"
         android:label="Explore Services"
         tools:layout="@layout/fragment_explore_services" />
     <fragment
         android:id="@+id/myDashboardFragment"
-        android:name="com.hire_wire_application.MyDashboardFragment"
+        android:name="com.hire_wire_application.features.my_dashboard.MyDashboardFragment"
         android:label="My Dashboard"
         tools:layout="@layout/fragment_my_dashboard" />
     <fragment
         android:id="@+id/createServiceFragment"
-        android:name="com.hire_wire_application.CreateServiceFragment"
+        android:name="com.hire_wire_application.features.create_service.CreateServiceFragment"
         android:label="Create Service"
         tools:layout="@layout/fragment_create_service" />
     <fragment
         android:id="@+id/profilePageFragment"
-        android:name="com.hire_wire_application.ProfilePageFragment"
+        android:name="com.hire_wire_application.features.profile_page.ProfilePageFragment"
         android:label="Profile Page"
         tools:layout="@layout/fragment_profile_page">
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.hire_wire_application.EditProfileFragment"
+        android:name="com.hire_wire_application.features.profile_page.EditProfileFragment"
         android:label="Edit Profile"
         tools:layout="@layout/fragment_edit_profile" />
 

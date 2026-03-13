@@ -1,4 +1,4 @@
-package com.hire_wire_application.models
+package com.hire_wire_application.models.db_models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

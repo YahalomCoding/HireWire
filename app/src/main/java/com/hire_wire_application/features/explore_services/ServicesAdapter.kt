@@ -1,13 +1,18 @@
-package com.hire_wire_application
+package com.hire_wire_application.features.explore_services
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hire_wire_application.databinding.ServicesListRowBinding
-import com.hire_wire_application.models.Service
+import com.hire_wire_application.models.db_models.Service
 
 class ServicesAdapter(private var services: List<Service>) :
     RecyclerView.Adapter<ServiceRowViewHolder>() {
+
+  fun updateServices(newServices: List<Service>) {
+    this.services = newServices
+    notifyDataSetChanged()
+  }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceRowViewHolder {
     val inflater = LayoutInflater.from(parent.context)
