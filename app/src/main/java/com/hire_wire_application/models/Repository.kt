@@ -1,11 +1,9 @@
 package com.hire_wire_application.models
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hire_wire_application.Completion
-import com.hire_wire_application.UserCompletion
 import com.hire_wire_application.models.CloudinaryStorageModel.ImagePathEnum
 import com.hire_wire_application.models.db_models.Service
 import com.hire_wire_application.models.db_models.User
@@ -17,6 +15,7 @@ class Repository private constructor() {
   private val localStorage: LocalStorageModel = LocalStorageModel()
 
   val servicesLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
+  val userLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
 
   companion object {
     val shared = Repository()
@@ -26,7 +25,11 @@ class Repository private constructor() {
     return localStorage.getHomeFeedServices(firebaseAuth.getLoggedInUserId())
   }
 
-  fun refreshHomeFeedServices() {
+  fun getMyServices(): LiveData<List<Service>> {
+    return localStorage.getMyServices(firebaseAuth.getLoggedInUserId())
+  }
+
+  fun refreshServices() {
     servicesLoadingState.postValue(LoadingState.LOADING)
     val lastUpdated: Long = Service.lastUpdated
 
@@ -48,20 +51,64 @@ class Repository private constructor() {
   fun addService(service: Service, image: Bitmap, completion: Completion) {
     storageModel.uploadImage(image, service.id, ImagePathEnum.SERVICES) { imageUrl ->
       firebaseModel.addService(service.copy(imageUrl = imageUrl)) {
-        refreshHomeFeedServices()
+        refreshServices()
         completion()
       }
     }
   }
 
-  fun addUser(user: User, image: Bitmap, completion: Completion) {
-    storageModel.uploadImage(image, user.id, ImagePathEnum.USERS) { imageUrl ->
-      firebaseModel.addUser(user.copy(imageUrl = imageUrl), completion)
+  fun editService(
+      service: Service,
+      updatedImage: Bitmap?,
+      completion: Completion,
+  ) {
+    if (updatedImage != null) {
+      storageModel.uploadImage(updatedImage, service.id, ImagePathEnum.SERVICES) { imageUrl ->
+        firebaseModel.updateService(service.copy(imageUrl = imageUrl)) {
+          refreshServices()
+          completion()
+        }
+      }
+    } else {
+      firebaseModel.updateService(service) {
+        refreshServices()
+        completion()
+      }
     }
   }
 
-  fun getUserById(userId: String, completion: UserCompletion) {
-    firebaseModel.getUserById(userId, completion)
+  fun deleteService(service: Service, completion: Completion = {}) {
+    val deletedService = service.copy(isDeleted = true)
+    firebaseModel.updateService(deletedService) {
+      refreshServices()
+      completion()
+    }
+  }
+
+  fun addUser(user: User, image: Bitmap, completion: Completion) {
+    storageModel.uploadImage(image, user.id, ImagePathEnum.USERS) { imageUrl ->
+      firebaseModel.addUser(user.copy(imageUrl = imageUrl)) {
+        refreshUser(user.id)
+        completion()
+      }
+    }
+  }
+
+  fun getUserById(userId: String): LiveData<User> {
+    // Since it's a single user always try to refresh it in case it was updated
+    // elsewhere
+    refreshUser(userId)
+    return localStorage.getUserById(userId)
+  }
+
+  fun refreshUser(userId: String) {
+    userLoadingState.postValue(LoadingState.LOADING)
+    firebaseModel.getUserById(userId) { user ->
+      if (user != null) {
+        localStorage.insertUser(user)
+      }
+      userLoadingState.postValue(LoadingState.LOADED)
+    }
   }
 
   fun editUserById(
@@ -73,10 +120,16 @@ class Repository private constructor() {
     if (updatedImage != null) {
       storageModel.uploadImage(updatedImage, userId, ImagePathEnum.USERS) { imageUrl ->
         val updatedDataWithImageUrl = updatedData + ("imageUrl" to imageUrl)
-        firebaseModel.editUserById(userId, updatedDataWithImageUrl, completion)
+        firebaseModel.editUserById(userId, updatedDataWithImageUrl) {
+          refreshUser(userId)
+          completion()
+        }
       }
     } else {
-      firebaseModel.editUserById(userId, updatedData, completion)
+      firebaseModel.editUserById(userId, updatedData) {
+        refreshUser(userId)
+        completion()
+      }
     }
   }
 }

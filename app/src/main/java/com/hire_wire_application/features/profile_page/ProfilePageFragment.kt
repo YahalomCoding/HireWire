@@ -5,16 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentProfilePageBinding
-import com.hire_wire_application.models.FirebaseAuthModel
-import com.hire_wire_application.models.Repository
 import com.squareup.picasso.Picasso
 
 class ProfilePageFragment : Fragment() {
   private lateinit var binding: FragmentProfilePageBinding
-  private val firebaseAuth = FirebaseAuthModel()
+  private val viewModel: ProfileViewModel by viewModels()
 
   override fun onCreateView(
       inflater: LayoutInflater,
@@ -25,16 +24,18 @@ class ProfilePageFragment : Fragment() {
 
     togglePageVisibility(true)
 
-    Repository.Companion.shared.getUserById(firebaseAuth.getLoggedInUserId()) { user ->
-      if (user != null) {
+    binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
+
+    viewModel.user.observe(viewLifecycleOwner) { user ->
+      if (user == null) {
+        findNavController().navigate(R.id.action_profilePageFragment_to_editProfileFragment)
+      } else {
         Picasso.get().load(user.imageUrl).into(binding.profileImage)
         binding.nameText.text = user.name
         binding.bioText.text = user.bio
-      } else {
-        findNavController().navigate(R.id.action_profilePageFragment_to_editProfileFragment)
+        togglePageVisibility(false)
       }
-
-      togglePageVisibility(false)
+      binding.swipeRefresh.isRefreshing = false
     }
 
     binding.editButton.setOnClickListener {

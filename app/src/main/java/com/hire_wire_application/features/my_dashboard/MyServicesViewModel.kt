@@ -1,4 +1,4 @@
-package com.hire_wire_application.features.explore_services
+package com.hire_wire_application.features.my_dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -6,10 +6,10 @@ import com.hire_wire_application.models.LoadingState
 import com.hire_wire_application.models.Repository
 import com.hire_wire_application.models.db_models.Service
 
-class ExploreServicesViewModel : ViewModel() {
+class MyServicesViewModel : ViewModel() {
 
-  val data: LiveData<List<Service>> = Repository.shared.getHomeFeedServices()
-  val loadingState: LiveData<LoadingState> = Repository.shared.servicesLoadingState
+  val data: LiveData<List<Service>> = Repository.shared.getMyServices()
+  val servicesLoadingState: LiveData<LoadingState> = Repository.shared.servicesLoadingState
 
   init {
     Repository.shared.refreshServices()
