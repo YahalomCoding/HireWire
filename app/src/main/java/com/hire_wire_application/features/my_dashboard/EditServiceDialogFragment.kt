@@ -86,7 +86,7 @@ class EditServiceDialogFragment(private val service: Service) : DialogFragment()
             !isImageChanged
     ) {
       Toast.makeText(context, "No changes detected", Toast.LENGTH_SHORT).show()
-      dismiss()
+      return
     }
 
     val updatedService = service.copy(title = title, description = description, price = price)

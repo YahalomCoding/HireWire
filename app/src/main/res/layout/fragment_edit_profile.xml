@@ -78,7 +78,7 @@
         android:id="@+id/uploadProfileImageButton"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@android:color/transparent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:importantForAccessibility="no"
         android:src="@android:drawable/ic_menu_camera"
         app:layout_constraintBottom_toBottomOf="@+id/currProfileImage"
