@@ -11,6 +11,4 @@ typealias StringCompletion = (String) -> Unit
 
 typealias UserCompletion = (User?) -> Unit
 
-val GLOBAL_USERS_LAST_UPDATED_KEY = "GLOBAL_USERS_LAST_UPDATED_KEY"
-
 val GLOBAL_SERVICES_LAST_UPDATED_KEY = "GLOBAL_SERVICES_LAST_UPDATED_KEY"

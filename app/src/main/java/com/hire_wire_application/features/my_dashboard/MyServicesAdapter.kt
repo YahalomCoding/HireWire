@@ -9,6 +9,7 @@ import com.hire_wire_application.models.db_models.Service
 class MyServicesAdapter(
     private var services: List<Service>,
     private val onEditClick: (Service) -> Unit,
+    private val onDeleteClick: (Service) -> Unit,
 ) : RecyclerView.Adapter<MyServiceRowViewHolder>() {
 
   fun updateServices(newServices: List<Service>) {
@@ -19,7 +20,7 @@ class MyServicesAdapter(
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyServiceRowViewHolder {
     val inflater = LayoutInflater.from(parent.context)
     val binding = MyServicesListRowBinding.inflate(inflater, parent, false)
-    return MyServiceRowViewHolder(binding, onEditClick)
+    return MyServiceRowViewHolder(binding, onEditClick, onDeleteClick)
   }
 
   override fun onBindViewHolder(holder: MyServiceRowViewHolder, position: Int) {

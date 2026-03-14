@@ -29,7 +29,7 @@ class Repository private constructor() {
     return localStorage.getMyServices(firebaseAuth.getLoggedInUserId())
   }
 
-  fun refreshHomeFeedServices() {
+  fun refreshServices() {
     servicesLoadingState.postValue(LoadingState.LOADING)
     val lastUpdated: Long = Service.lastUpdated
 
@@ -51,7 +51,7 @@ class Repository private constructor() {
   fun addService(service: Service, image: Bitmap, completion: Completion) {
     storageModel.uploadImage(image, service.id, ImagePathEnum.SERVICES) { imageUrl ->
       firebaseModel.addService(service.copy(imageUrl = imageUrl)) {
-        refreshHomeFeedServices()
+        refreshServices()
         completion()
       }
     }
@@ -65,15 +65,23 @@ class Repository private constructor() {
     if (updatedImage != null) {
       storageModel.uploadImage(updatedImage, service.id, ImagePathEnum.SERVICES) { imageUrl ->
         firebaseModel.updateService(service.copy(imageUrl = imageUrl)) {
-          refreshHomeFeedServices()
+          refreshServices()
           completion()
         }
       }
     } else {
       firebaseModel.updateService(service) {
-        refreshHomeFeedServices()
+        refreshServices()
         completion()
       }
+    }
+  }
+
+  fun deleteService(service: Service, completion: Completion = {}) {
+    val deletedService = service.copy(isDeleted = true)
+    firebaseModel.updateService(deletedService) {
+      refreshServices()
+      completion()
     }
   }
 

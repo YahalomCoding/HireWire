@@ -17,6 +17,7 @@ data class Service(
     val description: String,
     val price: Long,
     var lastUpdated: Long? = null,
+    val isDeleted: Boolean? = false,
 ) {
 
   companion object {
@@ -41,6 +42,7 @@ data class Service(
     const val DESCRIPTION_KEY = "description"
     const val PRICE_KEY = "price"
     const val LAST_UPDATED_KEY = "lastUpdated"
+    const val IS_DELETED_KEY = "isDeleted"
 
     fun fromJson(json: Map<String, Any?>): Service {
       val id = json[ID_KEY] as String
@@ -51,6 +53,7 @@ data class Service(
       val price = json[PRICE_KEY] as Long
       val lastUpdated = json[LAST_UPDATED_KEY] as? Timestamp
       val lastUpdatedLong = lastUpdated?.toDate()?.time
+      val isDeleted = json[IS_DELETED_KEY] as? Boolean ?: false
 
       return Service(
           id = id,
@@ -60,6 +63,7 @@ data class Service(
           description = description,
           price = price,
           lastUpdated = lastUpdatedLong,
+          isDeleted = isDeleted,
       )
     }
   }
@@ -74,5 +78,6 @@ data class Service(
             DESCRIPTION_KEY to description,
             PRICE_KEY to price,
             LAST_UPDATED_KEY to FieldValue.serverTimestamp(),
+            IS_DELETED_KEY to isDeleted,
         )
 }

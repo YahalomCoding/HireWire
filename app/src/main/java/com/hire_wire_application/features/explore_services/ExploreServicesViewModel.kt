@@ -12,10 +12,10 @@ class ExploreServicesViewModel : ViewModel() {
   val loadingState: LiveData<LoadingState> = Repository.shared.servicesLoadingState
 
   init {
-    Repository.shared.refreshHomeFeedServices()
+    Repository.shared.refreshServices()
   }
 
   fun refresh() {
-    Repository.shared.refreshHomeFeedServices()
+    Repository.shared.refreshServices()
   }
 }
