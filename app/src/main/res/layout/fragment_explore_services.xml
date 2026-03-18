@@ -7,7 +7,7 @@
     tools:context=".features.explore_services.ExploreServicesFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
+        android:id="@+id/exploreServicesSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent">

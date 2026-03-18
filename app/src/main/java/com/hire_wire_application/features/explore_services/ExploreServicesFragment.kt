@@ -31,11 +31,11 @@ class ExploreServicesFragment : Fragment() {
     viewModel.data.observe(viewLifecycleOwner) { services ->
       adapter?.updateServices(services)
       binding.progressBar.visibility = View.GONE
-      binding.swipeRefresh.isRefreshing = false
+      binding.exploreServicesSwipeRefresh.isRefreshing = false
     }
 
     viewModel.loadingState.observe(viewLifecycleOwner) { state ->
-      binding.swipeRefresh.isRefreshing = (state == LoadingState.LOADING)
+      binding.exploreServicesSwipeRefresh.isRefreshing = (state == LoadingState.LOADING)
 
       if (state == LoadingState.LOADING && adapter?.itemCount == 0) {
         binding.progressBar.visibility = View.VISIBLE
@@ -44,7 +44,7 @@ class ExploreServicesFragment : Fragment() {
       }
     }
 
-    binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
+    binding.exploreServicesSwipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
     return binding.root
   }

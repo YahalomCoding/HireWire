@@ -43,6 +43,17 @@ class FirebaseModel {
         }
   }
 
+  fun updateService(service: Service, completion: Completion) {
+    db.collection(SERVICES)
+        .document(service.id)
+        .update(service.toJson)
+        .addOnSuccessListener { completion() }
+        .addOnFailureListener { exception ->
+          Log.e(TAG, "Error updating service", exception)
+          completion()
+        }
+  }
+
   fun addUser(user: User, completion: Completion) {
     db.collection(USERS)
         .document(user.id)

@@ -97,7 +97,7 @@
         android:id="@+id/uploadImageButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@android:color/transparent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:importantForAccessibility="no"
         android:src="@android:drawable/ic_menu_camera"
         app:layout_constraintBottom_toBottomOf="@+id/currServiceImage"
