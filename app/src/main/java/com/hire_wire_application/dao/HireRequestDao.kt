@@ -17,8 +17,8 @@ interface HireRequestDao {
       """
       SELECT HireRequest.*, Service.title as serviceName, User.name as requesterName 
       FROM HireRequest 
-      JOIN Service ON HireRequest.serviceId = Service.id 
-      JOIN User ON HireRequest.requesterId = User.id 
+      LEFT JOIN Service ON HireRequest.serviceId = Service.id 
+      LEFT JOIN User ON HireRequest.requesterId = User.id
       WHERE HireRequest.providerId = :userId
   """
   )

@@ -3,11 +3,13 @@ package com.hire_wire_application.models
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import com.hire_wire_application.Completion
 import com.hire_wire_application.RequestsCompletion
 import com.hire_wire_application.ServicesCompletion
 import com.hire_wire_application.UserCompletion
+import com.hire_wire_application.UsersCompletion
 import com.hire_wire_application.models.db_models.HireRequest
 import com.hire_wire_application.models.db_models.HireRequestStatus
 import com.hire_wire_application.models.db_models.Service
@@ -83,10 +85,23 @@ class FirebaseModel {
         }
   }
 
-  fun editUserById(userId: String, updatedData: Map<String, String>, completion: Completion) {
+  fun getAllUsers(lastUpdated: Long, completion: UsersCompletion) {
+    db.collection(USERS)
+        .whereGreaterThanOrEqualTo(User.LAST_UPDATED_KEY, Timestamp(lastUpdated / 1000, 0))
+        .orderBy(User.LAST_UPDATED_KEY)
+        .get()
+        .addOnSuccessListener { result -> completion(result.map { User.fromJson(it.data) }) }
+        .addOnFailureListener { exception ->
+          Log.e(TAG, "Error getting users", exception)
+          completion(listOf())
+        }
+  }
+
+  fun editUserById(userId: String, updatedData: Map<String, Any>, completion: Completion) {
+    val dataWithTimestamp = updatedData + (User.LAST_UPDATED_KEY to FieldValue.serverTimestamp())
     db.collection(USERS)
         .document(userId)
-        .update(updatedData)
+        .update(dataWithTimestamp)
         .addOnSuccessListener { completion() }
         .addOnFailureListener { exception ->
           Log.e(TAG, "Error editing user", exception)
@@ -120,7 +135,10 @@ class FirebaseModel {
   fun updateRequest(requestId: String, status: HireRequestStatus, completion: Completion) {
     db.collection(REQUESTS)
         .document(requestId)
-        .update(HireRequest.STATUS_KEY, status.name)
+        .update(
+            HireRequest.STATUS_KEY, status.name,
+            HireRequest.LAST_UPDATED_KEY, FieldValue.serverTimestamp()
+        )
         .addOnSuccessListener { completion() }
         .addOnFailureListener { exception ->
           Log.e(TAG, "Error updating request", exception)

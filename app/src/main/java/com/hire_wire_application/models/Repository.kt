@@ -51,6 +51,44 @@ class Repository private constructor() {
     }
   }
 
+  fun refreshAllUsers(completion: Completion? = null) {
+    val lastUpdated: Long = User.lastUpdated
+    firebaseModel.getAllUsers(lastUpdated) { list ->
+      var time = lastUpdated
+      for (user in list) {
+        localStorage.insertUser(user)
+        user.lastUpdated?.let { lastUpdatedUser ->
+          if (time < lastUpdatedUser) {
+            time = lastUpdatedUser
+          }
+        }
+      }
+      User.lastUpdated = time
+      completion?.invoke()
+    }
+  }
+
+  fun refreshRequests() {
+    requestsLoadingState.postValue(LoadingState.LOADING)
+    val lastUpdated: Long = HireRequest.lastUpdated
+
+    refreshAllUsers {
+      firebaseModel.getAllRequests(lastUpdated) { list ->
+        var time = lastUpdated
+        for (request in list) {
+          localStorage.insertRequest(request)
+          request.lastUpdated?.let { lastUpdatedRequest ->
+            if (time < lastUpdatedRequest) {
+              time = lastUpdatedRequest
+            }
+          }
+        }
+        HireRequest.lastUpdated = time
+        requestsLoadingState.postValue(LoadingState.LOADED)
+      }
+    }
+  }
+
   fun addService(service: Service, image: Bitmap, completion: Completion) {
     storageModel.uploadImage(image, service.id, ImagePathEnum.SERVICES) { imageUrl ->
       firebaseModel.addService(service.copy(imageUrl = imageUrl)) {
@@ -138,25 +176,6 @@ class Repository private constructor() {
 
   fun getRequestsToMe(): LiveData<List<HireRequestWithDetails>> {
     return localStorage.getRequestsToMe(firebaseAuth.getLoggedInUserId())
-  }
-
-  fun refreshRequests() {
-    requestsLoadingState.postValue(LoadingState.LOADING)
-    val lastUpdated: Long = HireRequest.lastUpdated
-
-    firebaseModel.getAllRequests(lastUpdated) { list ->
-      var time = lastUpdated
-      for (request in list) {
-        localStorage.insertRequest(request)
-        request.lastUpdated?.let { lastUpdatedRequest ->
-          if (time < lastUpdatedRequest) {
-            time = lastUpdatedRequest
-          }
-        }
-      }
-      HireRequest.lastUpdated = time
-      requestsLoadingState.postValue(LoadingState.LOADED)
-    }
   }
 
   fun addRequest(request: HireRequest, completion: Completion) {

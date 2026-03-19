@@ -20,7 +20,7 @@ class RequestRowViewHolder(
     val request = item.request
     val context = binding.root.context
     binding.requestServiceName.text =
-        context.getString(R.string.request_service_format, item.serviceName)
+        context.getString(R.string.request_service_format, item.serviceName ?: request.serviceId)
     binding.requestRequesterName.text =
         context.getString(R.string.request_from_format, item.requesterName ?: request.requesterId)
     binding.requestStatus.text = request.status.name
