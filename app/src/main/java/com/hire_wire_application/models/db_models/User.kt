@@ -1,6 +1,5 @@
 package com.hire_wire_application.models.db_models
 
-import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
