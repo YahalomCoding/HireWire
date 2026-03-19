@@ -12,6 +12,10 @@ class RequestsViewModel : ViewModel() {
   val requests: LiveData<List<HireRequestWithDetails>> = repository.getRequestsToMe()
   val loadingState: LiveData<LoadingState> = repository.requestsLoadingState
 
+  init {
+    refresh()
+  }
+
   fun refresh() {
     repository.refreshRequests()
   }
