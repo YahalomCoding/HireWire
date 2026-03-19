@@ -25,7 +25,11 @@ class ExploreServicesFragment : Fragment() {
     binding.servicesRecyclerView.setHasFixedSize(true)
     binding.servicesRecyclerView.layoutManager = LinearLayoutManager(context)
 
-    adapter = ServicesAdapter(emptyList())
+    adapter =
+        ServicesAdapter(emptyList()) { service ->
+          val dialog = HireServiceDialogFragment(service)
+          dialog.show(childFragmentManager, HireServiceDialogFragment.TAG)
+        }
     binding.servicesRecyclerView.adapter = adapter
 
     viewModel.data.observe(viewLifecycleOwner) { services ->

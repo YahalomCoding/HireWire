@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hire_wire_application.databinding.ServicesListRowBinding
 import com.hire_wire_application.models.db_models.Service
 
-class ServicesAdapter(private var services: List<Service>) :
-    RecyclerView.Adapter<ServiceRowViewHolder>() {
+class ServicesAdapter(
+    private var services: List<Service>,
+    private val onHireClick: (Service) -> Unit,
+) : RecyclerView.Adapter<ServiceRowViewHolder>() {
 
   fun updateServices(newServices: List<Service>) {
     this.services = newServices
@@ -18,7 +20,7 @@ class ServicesAdapter(private var services: List<Service>) :
     val inflater = LayoutInflater.from(parent.context)
     val binding = ServicesListRowBinding.inflate(inflater, parent, false)
 
-    return ServiceRowViewHolder(binding = binding)
+    return ServiceRowViewHolder(binding = binding, onHireClick = onHireClick)
   }
 
   override fun onBindViewHolder(holder: ServiceRowViewHolder, position: Int) {
