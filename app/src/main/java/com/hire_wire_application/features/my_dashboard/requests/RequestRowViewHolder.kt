@@ -1,6 +1,8 @@
 package com.hire_wire_application.features.my_dashboard.requests
 
+import android.content.res.ColorStateList
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.RequestsListRowBinding
@@ -23,21 +25,28 @@ class RequestRowViewHolder(
         context.getString(R.string.request_from_format, item.requesterName ?: request.requesterId)
     binding.requestStatus.text = request.status.name
 
-    when (request.status) {
-      HireRequestStatus.PENDING -> {
-        binding.requestStatus.setBackgroundColor(
-            context.getColor(android.R.color.holo_orange_light)
-        )
-        binding.requestActions.visibility = View.VISIBLE
-      }
-      HireRequestStatus.ACCEPTED -> {
-        binding.requestStatus.setBackgroundColor(context.getColor(android.R.color.holo_green_light))
-        binding.requestActions.visibility = View.GONE
-      }
-      HireRequestStatus.REJECTED -> {
-        binding.requestStatus.setBackgroundColor(context.getColor(android.R.color.holo_red_light))
-        binding.requestActions.visibility = View.GONE
-      }
+    val statusColorRes = when (request.status) {
+      HireRequestStatus.PENDING -> R.color.status_pending_text
+      HireRequestStatus.ACCEPTED -> R.color.status_accepted_text
+      HireRequestStatus.REJECTED -> R.color.status_rejected_text
+    }
+
+    val statusBgRes = when (request.status) {
+      HireRequestStatus.PENDING -> R.color.status_pending_bg
+      HireRequestStatus.ACCEPTED -> R.color.status_accepted_bg
+      HireRequestStatus.REJECTED -> R.color.status_rejected_bg
+    }
+
+    binding.requestStatus.setTextColor(ContextCompat.getColor(context, statusColorRes))
+    binding.requestStatus.backgroundTintList = 
+        ColorStateList.valueOf(ContextCompat.getColor(context, statusBgRes))
+
+    if (request.status == HireRequestStatus.PENDING) {
+      binding.requestActions.visibility = View.VISIBLE
+      binding.actionDivider.visibility = View.VISIBLE
+    } else {
+      binding.requestActions.visibility = View.GONE
+      binding.actionDivider.visibility = View.GONE
     }
 
     binding.btnAccept.setOnClickListener { onAcceptClick(request) }

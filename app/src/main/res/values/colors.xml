@@ -4,4 +4,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue_primary">#2196F3</color>
     <color name="gray_text">#757575</color>
+
+    <!-- Status Colors -->
+    <color name="status_pending_bg">#FFF3E0</color>
+    <color name="status_pending_text">#EF6C00</color>
+    <color name="status_accepted_bg">#E8F5E9</color>
+    <color name="status_accepted_text">#2E7D32</color>
+    <color name="status_rejected_bg">#FFEBEE</color>
+    <color name="status_rejected_text">#C62828</color>
 </resources>
