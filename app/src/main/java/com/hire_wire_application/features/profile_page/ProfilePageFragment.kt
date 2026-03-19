@@ -27,7 +27,7 @@ class ProfilePageFragment : Fragment() {
     binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
     viewModel.user.observe(viewLifecycleOwner) { user ->
-      if (user == null) {
+      if (user == null && !binding.swipeRefresh.isRefreshing) {
         findNavController().navigate(R.id.action_profilePageFragment_to_editProfileFragment)
       } else {
         Picasso.get().load(user.imageUrl).into(binding.profileImage)
