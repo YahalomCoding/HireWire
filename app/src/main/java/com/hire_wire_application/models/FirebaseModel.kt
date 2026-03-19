@@ -5,8 +5,11 @@ import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
 import com.hire_wire_application.Completion
+import com.hire_wire_application.RequestsCompletion
 import com.hire_wire_application.ServicesCompletion
 import com.hire_wire_application.UserCompletion
+import com.hire_wire_application.models.db_models.HireRequest
+import com.hire_wire_application.models.db_models.HireRequestStatus
 import com.hire_wire_application.models.db_models.Service
 import com.hire_wire_application.models.db_models.User
 
@@ -17,6 +20,7 @@ class FirebaseModel {
   private companion object COLLECTIONS {
     const val SERVICES = "services"
     const val USERS = "users"
+    const val REQUESTS = "requests"
     const val TAG = "FirebaseModel"
   }
 
@@ -86,6 +90,40 @@ class FirebaseModel {
         .addOnSuccessListener { completion() }
         .addOnFailureListener { exception ->
           Log.e(TAG, "Error editing user", exception)
+          completion()
+        }
+  }
+
+  fun getAllRequests(lastUpdated: Long, completion: RequestsCompletion) {
+    db.collection(REQUESTS)
+        .whereGreaterThanOrEqualTo(HireRequest.LAST_UPDATED_KEY, Timestamp(lastUpdated / 1000, 0))
+        .orderBy(HireRequest.LAST_UPDATED_KEY)
+        .get()
+        .addOnSuccessListener { result -> completion(result.map { HireRequest.fromJson(it.data) }) }
+        .addOnFailureListener { exception ->
+          Log.e(TAG, "Error getting requests", exception)
+          completion(listOf())
+        }
+  }
+
+  fun addRequest(request: HireRequest, completion: Completion) {
+    db.collection(REQUESTS)
+        .document(request.id)
+        .set(request.toJson)
+        .addOnSuccessListener { completion() }
+        .addOnFailureListener { exception ->
+          Log.e(TAG, "Error adding request", exception)
+          completion()
+        }
+  }
+
+  fun updateRequest(requestId: String, status: HireRequestStatus, completion: Completion) {
+    db.collection(REQUESTS)
+        .document(requestId)
+        .update(HireRequest.STATUS_KEY, status.name)
+        .addOnSuccessListener { completion() }
+        .addOnFailureListener { exception ->
+          Log.e(TAG, "Error updating request", exception)
           completion()
         }
   }

@@ -10,11 +10,19 @@
     <string name="price_format">$%1$d</string>
     <string name="email_input_text">Email:</string>
     <string name="password_input_text">Password:</string>
-    <string name="sign_in_button">Sign In</string>>
+    <string name="sign_in_button">Sign In</string>
     <string name="user_profile_text">User Profile</string>
     <string name="name_input_text">Name:</string>
     <string name="bio_input_text">Bio:</string>
     <string name="edit_button_text">Edit</string>
     <string name="delete_service_text">Delete service</string>
     <string name="edit_service_text">Edit service</string>
+    <string name="provider_name_format">By: %1$s</string>
+    <string name="hire_toast_message">Hiring %1$s from %2$s</string>
+    <string name="already_requested_toast">You already have a pending request for this service.</string>
+    <string name="hire_request_success">Hire request sent successfully!</string>
+    <string name="request_service_format">Service: %1$s</string>
+    <string name="request_from_format">From: %1$s</string>
+    <string name="accept_button_text">Accept</string>
+    <string name="reject_button_text">Reject</string>
 </resources>

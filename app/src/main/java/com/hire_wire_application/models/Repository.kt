@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hire_wire_application.Completion
 import com.hire_wire_application.models.CloudinaryStorageModel.ImagePathEnum
+import com.hire_wire_application.models.db_models.HireRequest
+import com.hire_wire_application.models.db_models.HireRequestStatus
 import com.hire_wire_application.models.db_models.Service
 import com.hire_wire_application.models.db_models.User
 
@@ -16,6 +18,7 @@ class Repository private constructor() {
 
   val servicesLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
   val userLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
+  val requestsLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
 
   companion object {
     val shared = Repository()
@@ -131,5 +134,50 @@ class Repository private constructor() {
         completion()
       }
     }
+  }
+
+  fun getRequestsToMe(): LiveData<List<HireRequestWithDetails>> {
+    return localStorage.getRequestsToMe(firebaseAuth.getLoggedInUserId())
+  }
+
+  fun refreshRequests() {
+    requestsLoadingState.postValue(LoadingState.LOADING)
+    val lastUpdated: Long = HireRequest.lastUpdated
+
+    firebaseModel.getAllRequests(lastUpdated) { list ->
+      var time = lastUpdated
+      for (request in list) {
+        localStorage.insertRequest(request)
+        request.lastUpdated?.let { lastUpdatedRequest ->
+          if (time < lastUpdatedRequest) {
+            time = lastUpdatedRequest
+          }
+        }
+      }
+      HireRequest.lastUpdated = time
+      requestsLoadingState.postValue(LoadingState.LOADED)
+    }
+  }
+
+  fun addRequest(request: HireRequest, completion: Completion) {
+    firebaseModel.addRequest(request) {
+      refreshRequests()
+      completion()
+    }
+  }
+
+  fun updateRequestStatus(requestId: String, status: HireRequestStatus, completion: Completion) {
+    firebaseModel.updateRequest(requestId, status) {
+      refreshRequests()
+      completion()
+    }
+  }
+
+  fun getPendingRequestByMe(serviceId: String): LiveData<HireRequest?> {
+    return localStorage.getPendingRequestByMe(firebaseAuth.getLoggedInUserId(), serviceId)
+  }
+
+  fun getLoggedInUserId(): String {
+    return firebaseAuth.getLoggedInUserId()
   }
 }
