@@ -17,7 +17,6 @@ import com.hire_wire_application.models.db_models.User
 
 class FirebaseModel {
   val db = Firebase.firestore
-  val firebaseAuth = FirebaseAuthModel()
 
   private companion object COLLECTIONS {
     const val SERVICES = "services"
@@ -136,8 +135,10 @@ class FirebaseModel {
     db.collection(REQUESTS)
         .document(requestId)
         .update(
-            HireRequest.STATUS_KEY, status.name,
-            HireRequest.LAST_UPDATED_KEY, FieldValue.serverTimestamp()
+            HireRequest.STATUS_KEY,
+            status.name,
+            HireRequest.LAST_UPDATED_KEY,
+            FieldValue.serverTimestamp(),
         )
         .addOnSuccessListener { completion() }
         .addOnFailureListener { exception ->

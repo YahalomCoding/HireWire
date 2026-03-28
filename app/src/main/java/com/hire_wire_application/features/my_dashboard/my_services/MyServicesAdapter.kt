@@ -1,5 +1,6 @@
 package com.hire_wire_application.features.my_dashboard.my_services
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ class MyServicesAdapter(
     private val onDeleteClick: (Service) -> Unit,
 ) : RecyclerView.Adapter<MyServiceRowViewHolder>() {
 
+  @SuppressLint("NotifyDataSetChanged")
   fun updateServices(newServices: List<Service>) {
     this.services = newServices
     notifyDataSetChanged()

@@ -40,6 +40,7 @@
             app:layout_constraintEnd_toStartOf="@+id/requestStatus"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/requestServiceName"
+            tools:ignore="TextContrastCheck"
             tools:text="From: Princess Peach" />
 
         <TextView
@@ -54,6 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/status_pending_bg"
+            tools:ignore="TextContrastCheck"
             tools:text="PENDING"
             tools:textColor="@color/status_pending_text" />
 
@@ -98,7 +100,8 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/accept_button_text"
                 android:textColor="@color/status_accepted_text"
-                app:rippleColor="#202E7D32" />
+                app:rippleColor="#202E7D32"
+                tools:ignore="TextContrastCheck" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

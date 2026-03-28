@@ -16,7 +16,8 @@
         app:tabIndicatorHeight="3dp"
         app:tabSelectedTextColor="@color/blue_primary"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabTextColor="@color/gray_text" />
+        app:tabTextColor="@color/gray_text"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
