@@ -43,8 +43,8 @@ class EditProfileFragment : Fragment() {
 
         originalName = user.name
         originalBio = user.bio
-        togglePageVisibility(false)
       }
+        togglePageVisibility(false)
     }
 
     cameraLauncher =

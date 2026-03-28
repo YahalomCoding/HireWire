@@ -1,4 +1,4 @@
-package com.hire_wire_application.features.my_dashboard
+package com.hire_wire_application.features.my_dashboard.my_services
 
 import android.os.Bundle
 import android.view.LayoutInflater

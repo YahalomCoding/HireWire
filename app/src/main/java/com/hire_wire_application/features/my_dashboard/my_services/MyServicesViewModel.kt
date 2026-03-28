@@ -1,4 +1,4 @@
-package com.hire_wire_application.features.my_dashboard
+package com.hire_wire_application.features.my_dashboard.my_services
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import com.hire_wire_application.GLOBAL_USERS_LAST_UPDATED_KEY
+import com.hire_wire_application.MyApplication
 
 @Entity
 data class User(
@@ -15,6 +17,20 @@ data class User(
     var lastUpdated: Long? = null,
 ) {
   companion object {
+    var lastUpdated: Long
+      get() {
+        return MyApplication.Globals.appContext
+            ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
+            ?.getLong(GLOBAL_USERS_LAST_UPDATED_KEY, 0) ?: 0L
+      }
+      set(value) {
+        MyApplication.Globals.appContext
+            ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
+            ?.edit()
+            ?.putLong(GLOBAL_USERS_LAST_UPDATED_KEY, value)
+            ?.apply()
+      }
+
     const val ID_KEY = "id"
     const val IMAGE_URL_KEY = "imageUrl"
     const val NAME_KEY = "name"

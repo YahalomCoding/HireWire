@@ -2,6 +2,8 @@ package com.hire_wire_application.features.my_dashboard
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.hire_wire_application.features.my_dashboard.my_services.MyServicesFragment
+import com.hire_wire_application.features.my_dashboard.requests.RequestsFragment
 
 class DashboardPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
