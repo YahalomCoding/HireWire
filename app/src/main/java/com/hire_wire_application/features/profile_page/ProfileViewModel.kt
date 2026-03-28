@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.hire_wire_application.Completion
 import com.hire_wire_application.models.FirebaseAuthModel
+import com.hire_wire_application.models.LoadingState
 import com.hire_wire_application.models.Repository
 import com.hire_wire_application.models.db_models.User
 
@@ -14,6 +15,7 @@ class ProfileViewModel : ViewModel() {
 
   val userId: String = firebaseAuth.getLoggedInUserId()
   val user: LiveData<User> = repository.getUserById(userId)
+  val userLoadingState: LiveData<LoadingState> = repository.userLoadingState
 
   fun refresh() {
     repository.refreshUser(userId)
