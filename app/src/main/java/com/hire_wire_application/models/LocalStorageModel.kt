@@ -46,10 +46,6 @@ class LocalStorageModel {
     }
   }
 
-  fun getRequestsByMe(userId: String): LiveData<List<HireRequest>> {
-    return database.hireRequestDao.getRequestsByMe(userId)
-  }
-
   fun getRequestsToMe(userId: String): LiveData<List<HireRequestWithDetails>> {
     return database.hireRequestDao.getRequestsToMeWithDetails(userId)
   }

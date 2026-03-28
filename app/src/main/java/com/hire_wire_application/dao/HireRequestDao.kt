@@ -10,8 +10,6 @@ import com.hire_wire_application.models.db_models.HireRequest
 
 @Dao
 interface HireRequestDao {
-  @Query("SELECT * FROM HireRequest WHERE requesterId = :userId OR providerId = :userId")
-  fun getRequestsByMe(userId: String): LiveData<List<HireRequest>>
 
   @Query(
       """
@@ -19,7 +17,7 @@ interface HireRequestDao {
       FROM HireRequest 
       LEFT JOIN Service ON HireRequest.serviceId = Service.id 
       LEFT JOIN User ON HireRequest.requesterId = User.id
-      WHERE HireRequest.providerId = :userId
+      WHERE HireRequest.providerId = :userId AND Service.isDeleted != 1
   """
   )
   fun getRequestsToMeWithDetails(userId: String): LiveData<List<HireRequestWithDetails>>
