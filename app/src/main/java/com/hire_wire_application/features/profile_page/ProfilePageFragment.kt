@@ -39,7 +39,10 @@ class ProfilePageFragment : Fragment() {
         binding.nameText.text = user.name
         binding.bioText.text = user.bio
         togglePageVisibility(false)
-      } else if (viewModel.userLoadingState.value == LoadingState.LOADED && !binding.swipeRefresh.isRefreshing) {
+      } else if (
+          viewModel.userLoadingState.value == LoadingState.LOADED &&
+              !binding.swipeRefresh.isRefreshing
+      ) {
         findNavController().navigate(R.id.action_profilePageFragment_to_editProfileFragment)
       }
     }

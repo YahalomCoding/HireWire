@@ -1,5 +1,6 @@
 package com.hire_wire_application.models.db_models
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -26,12 +27,13 @@ data class HireRequest(
   companion object {
     var lastUpdated: Long
       get() {
-        return MyApplication.Globals.appContext
+        return MyApplication.appContext
             ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
             ?.getLong(GLOBAL_REQUESTS_LAST_UPDATED_KEY, 0) ?: 0L
       }
+      @SuppressLint("UseKtx")
       set(value) {
-        MyApplication.Globals.appContext
+        MyApplication.appContext
             ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
             ?.edit()
             ?.putLong(GLOBAL_REQUESTS_LAST_UPDATED_KEY, value)
@@ -54,7 +56,7 @@ data class HireRequest(
       val status =
           try {
             HireRequestStatus.valueOf(statusString)
-          } catch (e: Exception) {
+          } catch (_: Exception) {
             HireRequestStatus.PENDING
           }
       val lastUpdated = json[LAST_UPDATED_KEY] as? Timestamp

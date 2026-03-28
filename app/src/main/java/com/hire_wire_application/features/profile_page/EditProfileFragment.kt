@@ -44,7 +44,7 @@ class EditProfileFragment : Fragment() {
         originalName = user.name
         originalBio = user.bio
       }
-        togglePageVisibility(false)
+      togglePageVisibility(false)
     }
 
     cameraLauncher =
@@ -72,7 +72,7 @@ class EditProfileFragment : Fragment() {
         if (!isExistingUser) {
           createNewUser(userId, name, bio, imageBitmap)
         } else {
-          updateExistingUser(userId, name, bio, imageBitmap)
+          updateExistingUser(name, bio, imageBitmap)
         }
       }
     }
@@ -89,7 +89,7 @@ class EditProfileFragment : Fragment() {
     }
   }
 
-  fun updateExistingUser(userId: String, name: String, bio: String, imageBitmap: Bitmap) {
+  fun updateExistingUser(name: String, bio: String, imageBitmap: Bitmap) {
     var updatedData: Map<String, String> = emptyMap()
 
     if (name != originalName) {

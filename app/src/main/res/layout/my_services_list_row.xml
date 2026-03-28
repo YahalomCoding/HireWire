@@ -47,7 +47,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#D32F2F" />
+            app:tint="#D32F2F"
+            tools:ignore="ImageContrastCheck,TouchTargetSizeCheck" />
 
         <ImageView
             android:id="@+id/editButton"
@@ -62,7 +63,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/deleteButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue_primary" />
+            app:tint="@color/blue_primary"
+            tools:ignore="ImageContrastCheck,TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

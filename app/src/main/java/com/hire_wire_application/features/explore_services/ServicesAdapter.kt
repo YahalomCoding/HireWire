@@ -1,5 +1,6 @@
 package com.hire_wire_application.features.explore_services
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ class ServicesAdapter(
     private val onHireClick: (Service) -> Unit,
 ) : RecyclerView.Adapter<ServiceRowViewHolder>() {
 
+  @SuppressLint("NotifyDataSetChanged")
   fun updateServices(newServices: List<Service>) {
     this.services = newServices
     notifyDataSetChanged()

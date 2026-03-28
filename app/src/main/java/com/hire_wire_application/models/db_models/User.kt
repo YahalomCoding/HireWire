@@ -1,5 +1,6 @@
 package com.hire_wire_application.models.db_models
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -19,12 +20,13 @@ data class User(
   companion object {
     var lastUpdated: Long
       get() {
-        return MyApplication.Globals.appContext
+        return MyApplication.appContext
             ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
             ?.getLong(GLOBAL_USERS_LAST_UPDATED_KEY, 0) ?: 0L
       }
+      @SuppressLint("UseKtx")
       set(value) {
-        MyApplication.Globals.appContext
+        MyApplication.appContext
             ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
             ?.edit()
             ?.putLong(GLOBAL_USERS_LAST_UPDATED_KEY, value)

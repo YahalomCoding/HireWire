@@ -13,7 +13,7 @@ class Converters {
   fun toStatus(status: String): HireRequestStatus {
     return try {
       HireRequestStatus.valueOf(status)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
       HireRequestStatus.PENDING
     }
   }
