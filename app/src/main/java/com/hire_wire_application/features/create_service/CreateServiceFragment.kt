@@ -63,7 +63,12 @@ class CreateServiceFragment : Fragment() {
 
         Repository.shared.addService(newService, imageBitmap) {
           binding.progressBar.visibility = View.GONE
-          findNavController().navigate(R.id.action_global_exploreServicesFragment)
+
+          findNavController().navigate(R.id.action_global_myDashboardFragment)
+
+          binding.titleInput.text.clear()
+          binding.descriptionInput.text.clear()
+          binding.priceInput.text.clear()
         }
       } else {
         Toast.makeText(binding.root.context, "Empty Fields Detected", Toast.LENGTH_LONG).show()

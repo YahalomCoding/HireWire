@@ -25,4 +25,6 @@
     <string name="request_from_format">From: %1$s</string>
     <string name="accept_button_text">Accept</string>
     <string name="reject_button_text">Reject</string>
+    <string name="no_name_text">No Name (Profile Not Created)</string>
+    <string name="no_bio_text">No Bio (Profile Not Created)</string>
 </resources>

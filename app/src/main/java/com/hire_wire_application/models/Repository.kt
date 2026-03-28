@@ -17,7 +17,7 @@ class Repository private constructor() {
   private val localStorage: LocalStorageModel = LocalStorageModel()
 
   val servicesLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
-  val userLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADING)
+  val userLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
   val requestsLoadingState: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.LOADED)
 
   companion object {

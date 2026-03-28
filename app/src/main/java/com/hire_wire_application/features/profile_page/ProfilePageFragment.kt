@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.hire_wire_application.R
 import com.hire_wire_application.databinding.FragmentProfilePageBinding
-import com.hire_wire_application.models.LoadingState
 import com.squareup.picasso.Picasso
 
 class ProfilePageFragment : Fragment() {
@@ -23,14 +22,9 @@ class ProfilePageFragment : Fragment() {
   ): View {
     binding = FragmentProfilePageBinding.inflate(layoutInflater, container, false)
 
-    binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
-
-    viewModel.userLoadingState.observe(viewLifecycleOwner) { state ->
-      val isLoading = state == LoadingState.LOADING
-      togglePageVisibility(isLoading)
-      if (!isLoading) {
-        binding.swipeRefresh.isRefreshing = false
-      }
+    binding.swipeRefresh.setOnRefreshListener {
+      viewModel.refresh()
+      binding.swipeRefresh.isRefreshing = false
     }
 
     viewModel.user.observe(viewLifecycleOwner) { user ->
@@ -39,11 +33,6 @@ class ProfilePageFragment : Fragment() {
         binding.nameText.text = user.name
         binding.bioText.text = user.bio
         togglePageVisibility(false)
-      } else if (
-          viewModel.userLoadingState.value == LoadingState.LOADED &&
-              !binding.swipeRefresh.isRefreshing
-      ) {
-        findNavController().navigate(R.id.action_profilePageFragment_to_editProfileFragment)
       }
     }
 
